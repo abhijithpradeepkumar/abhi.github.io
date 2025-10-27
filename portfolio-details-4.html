@@ -166,7 +166,7 @@
                         <span class="breadcrumb-item active " aria-current="page">Project Details</span>
                     </nav>
                     <h3 class="banner-size fw-medium display-6 mb-3" data-aos="fade-up" data-aos-duration="1200">
-                       5 DOF Robotic Arm for Precision ManipulationProject <span class="text-primary"> Details</span>
+                       5 DOF Robotic Arm for Precision Manipulation<br>Project <span class="text-primary"> Details</span>
                     </h3>
                     <p data-aos="fade-up" data-aos-duration="1400">
                         Designing and programming a 5 Degree of Freedom (DOF) robotic arm using Python with ROS integration, achieving high precision in automated pick-and-place tasks using kinematics.[Project in progress]
@@ -176,7 +176,7 @@
 
             <div class="pt-5 mt-5" data-aos="fade-up" data-aos-duration="1400">
                 <div class="details">
-                    <h3 class=""> 5 DOF Robotic Arm for Precision Manipulation</h3>
+                    <h3 class=""> 5 DOF Robotic Arm for Precision Manipulation<br></h3>
                     <div class="mt-4">
                         <ul class="list-unstyled gap-2 gap-md-5 d-lg-flex">
                             <li>
@@ -194,43 +194,47 @@
                         </ul>
                     </div>
                     <div class="fs-5 my-4">
-                        <p>[Project in progress]<br> This project involves the design and implementation of a 5 Degree of Freedom (DOF) robotic arm capable of performing precise pick-and-place operations. The system integrates Python programming with ROS (Robot Operating System) to enable modular control, simulation, and real-time execution. Forward and inverse kinematics algorithms are applied to achieve accurate positioning and smooth motion planning, ensuring high precision in automated manipulation tasks.<br>
+                        <p><br>[Project in progress]<br> I designed and built a five-degree-of-freedom robotic arm with an actuated gripper using 3D-printed components and six hobby servos. The system is driven by an Arduino microcontroller and a PCA9685 servo driver with a dedicated 5–6 V supply for stable motion under load. <br> I implemented a staged bring-up process: single-servo validation, per-joint assembly, and calibration of zero positions and mechanical limits. <br>Control features include manual joint jogging, saved pose playback, and smooth speed-limited trajectories. I also added serial control from Python for scripted motions and created a simple kinematics layer to position the end-effector while maintaining wrist orientation. The final build achieves repeatable pick-and-place sequences with soft-start/stop motion profiles, an emergency stop, and clean cable management.<br><br>Power & ground
 
-Key Components & Features<br>Design Basis<br>
-The mechanical structure is adapted from the LimpSquid designs available on Thingiverse, leveraging its modularity and printable parts.
+<br>Servo PSU (+5~6 V) → PCA9685 V+
+
+<br>Servo PSU GND → PCA9685 GND
+
+<br>Arduino GND → PCA9685 GND (common ground is critical)
+
+<br>Add 1000 µF electrolytic across V+ ↔ GND on the PCA9685 servo rail (near the terminals).
+
+<br>Put a 2–5 A fuse (or current-limited bench supply) on the servo PSU for early tests.<br><br>Logic (I²C)
 <br>
-Mechanical Design<br>
-The arm has five actuated joints—shoulder pitch, shoulder yaw, elbow, wrist pitch, and wrist roll (or equivalent)—providing a manipulable workspace sufficient for standard pick-and-place tasks. The printable components are chosen to balance strength, weight, and printability.<br>
-Actuation & Sensors<br>
-Motors (e.g. stepper motors or hobby servos) drive each joint. Optional sensors (encoders, limit switches) may be integrated to provide feedback for closed-loop control.<br>
+Arduino Uno:
+<br>
+SDA (A4) → PCA9685 SDA
+<br>
+SCL (A5) → PCA9685 SCL
+<br>
+5 V → PCA9685 VCC (logic)
+<br>
+VCC (logic) kept separate from V+ (servo power) on the PCA9685.<br><br>Servos → PCA9685 channels<br><br>| Joint        | PCA9685 Channel |<br><br>
 
-Kinematics & Motion Planning<br>Forward kinematics for position estimation given joint angles.<br>
+| Base rotate  | 0               |<br>
+| Shoulder     | 1               |<br>
+| Elbow        | 2               |<br>
+| Wrist pitch  | 3               |<br>
+| Wrist rotate | 4               |<br>
+| Gripper      | 5               |<br>
+<br>
+<br>
+What the 5DOF arm can do: <br> Pick and place: Grab an object from spot A and put it at spot B, the same way every time.<br>
 
-Inverse kinematics algorithms to compute required joint angles for target end-effector positions.<br>
+Sort simple items: With a basic sensor (or human pressing a key), put light items in one bin and heavy/large ones in another.<br>
 
-Trajectory generation (smooth paths, collision avoidance) to ensure precise and safe movement.<br>
+Assembly moves: Hold a part while you screw/clip something else into it, or place parts into a jig. <br>
 
-ROS Integration<br>
-ROS nodes implemented in Python manage individual joints, motion planning, and high-level pick-and-place logic.<br>
+Teach & repeat: One can “move” it to a few poses (home → pick → place), save them, and it replays the sequence smoothly. <br>
 
-Use of ROS messages/topics/services/actions to handle commands and feedback.<br>
+Timed routines: Run a routine every N seconds/minutes—like feeding parts to a test rig.<br>
 
-Optionally simulation in Gazebo (or other simulators) for virtual testing before hardware deployment.<br>
-Precision & Calibration<br>
-The system includes calibration routines to reduce errors (e.g. mapping from joint commands to actual motion, correcting for backlash or print tolerances). Repeatability metrics are measured (e.g. ±mm at certain distances).<br>
-Pick-and-Place Workflow<br>
-Specify target object location (via vision or pre-defined coordinates).
-
-Calculate motion to approach the object.
-
-Grasp and lift.
-
-Move to destination.
-
-Release.
-
-Return to a safe or idle pose.<br>
-
+Camera-assisted (optional): With a cheap webcam + simple script, center on an object’s color/marker and pick it up (basic vision).<br>
                     </p>
                     </div>
                     <div class="row">
